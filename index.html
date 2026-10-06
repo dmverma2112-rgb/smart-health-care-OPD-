@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Broker Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<header>
+<div><b id="hn">Smart Healthcare &amp; OPD System</b><br><small>Broker Admin Panel</small></div>
+<nav class="tabs hide" id="anav">
+<button data-v="hosp" class="on">Hospitals</button>
+<button data-v="book">Bookings</button>
+<button data-v="live">Live Token</button>
+<button data-v="sett">Settlement</button>
+<button data-v="set">Settings</button>
+<button onclick="logout()">Logout</button>
+</nav>
+<button id="dm" aria-label="Dark mode badlein">🌙</button>
+</header>
+<main>
+<div id="lock" class="step"><h3>Broker (Admin) login</h3>
+<label for="pin">PIN (demo: 1234)</label><input id="pin" type="password" style="max-width:200px">
+<div class="err" id="e0"></div><button class="btn" onclick="unlock()">Login</button></div>
+
+<div id="app" class="hide">
+<section id="hosp">
+<div class="step"><h3>Hospitals</h3><p style="color:var(--mute)">Patients sirf "approved" hospitals dekhte hain. Hospital registration yahan "pending" me aata hai.</p><div class="tw"><table id="htbl"></table></div></div>
+<div class="step"><h3>Naya hospital jodein (seedha approved)</h3>
+<div class="row"><div><label for="an">Hospital ka naam</label><input id="an"></div><div><label for="aa">Area / City</label><input id="aa"></div>
+<div><label for="ap">Phone (10 digit)</label><input id="ap" inputmode="numeric" maxlength="10"></div><div><label for="af">Consultation fee (₹)</label><input id="af" type="number" min="0"></div></div>
+<label for="ad">Doctors (har line: Naam | Department)</label><textarea id="ad" rows="4" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit"></textarea>
+<div class="err" id="eh"></div><button class="btn" onclick="addHosp()">Hospital jodein</button></div>
+</section>
+
+<section id="book" class="hide"><div class="step"><h3>Sabhi bookings</h3>
+<p><button class="btn alt mini" onclick="seed()">Demo data daalein</button> <button class="btn alt mini" onclick="clearAp()">Sab hataein</button></p>
+<label for="fh">Hospital filter</label><select id="fh" onchange="bookT()" style="max-width:260px"></select>
+<div class="tw"><table id="tbl"></table></div></div></section>
+
+<section id="live" class="hide"><div class="step"><h3>Live token control (Aaj)</h3><p style="color:var(--mute)">"Agla token" dabate hi patients ke Home page par "Abhi chal raha token" badal jaata hai.</p><div id="ctl"></div></div></section>
+
+<section id="sett" class="hide">
+<div class="step"><h3>Settlement aur Broker commission</h3><div class="tw"><table id="ltbl"></table></div><p id="lsum"></p></div>
+<div class="step"><h3>Registered patients</h3><div class="tw"><table id="ptbl"></table></div></div></section>
+
+<section id="set" class="hide"><div class="step"><h3>Settings</h3>
+<div class="row"><div><label for="cn">Website ka naam</label><input id="cn"></div><div><label for="cc">Theme color</label><input id="cc" type="color" style="height:42px;padding:2px"></div></div>
+<label for="ctg">Home page tagline</label><input id="ctg">
+<label for="cd">Departments (comma se alag)</label><input id="cd">
+<div class="row"><div><label for="cm">Per patient time (minute)</label><input id="cm" type="number" min="1"></div>
+<div><label for="cf1">Default fee (₹)</label><input id="cf1" type="number" min="0"></div>
+<div><label for="cp">Cancel charge (%)</label><input id="cp" type="number" min="0" max="100"></div>
+<div><label for="cmm">Broker commission (%)</label><input id="cmm" type="number" min="0" max="90"></div>
+<div><label for="cu">Broker UPI ID (payment yahin aata hai)</label><input id="cu" placeholder="name@bank"></div></div>
+<p><button class="btn" onclick="saveSet()">Save changes</button> <button class="btn alt" onclick="resetAll()">Sab reset karein</button></p></div></section>
+</div>
+</main>
+<script src="../shared/common.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
