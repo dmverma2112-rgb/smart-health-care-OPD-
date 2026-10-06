@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -28,10 +28,10 @@
 <div class="grid" id="stats"></div>
 <div class="step"><h3>Appointment is currently running (Live)</h3><div id="board"></div></div>
 <div class="step"><h3>See your Appointment number</h3>
-<div class="row"><input id="tk" inputmode="numeric" maxlength="10" placeholder="Booking mobile number" aria-label="Mobile number"><button class="btn" onclick="findTok()">Token dekhein</button></div>
+<div class="row"><input id="tk" inputmode="numeric" maxlength="10" placeholder="Booking mobile number" aria-label="Mobile number"><button class="btn" onclick="findTok()">View token</button></div>
 <div id="tkr"></div></div>
 <div class="box"><b style="font-size:1.1rem;color:var(--ink)">How is it work.</b>
-Registration → Department → Doctor → Date/Time → Token aur Digital Parchi</div>
+Registration → Department → Doctor → Date/Time → Token and Digital Slip</div>
 </section>
 
 <section id="book" class="hide">
@@ -44,7 +44,7 @@ Registration → Department → Doctor → Date/Time → Token aur Digital Parch
 <div><label for="pa">Age</label><input id="pa" type="number" min="0" max="120"></div>
 <div><label for="pg">Gender</label><select id="pg"><option>Male</option><option>Female</option><option>Other</option></select></div>
 </div>
-<label for="sym">Problem likhiye (AI department suggest karega)</label>
+<label for="sym">Describe your problem (AI will suggest a department)</label>
 <input id="sym" placeholder=" Like: Typhoid, Maleria, Arthritis, Diabetes">
 <div class="ai hide" id="aiBox"></div>
 <div class="err" id="e1"></div>
@@ -64,7 +64,7 @@ Registration → Department → Doctor → Date/Time → Token aur Digital Parch
 </div>
 <div class="step hide" id="s6"><h3>6. UPI Payment</h3><div id="pay"></div></div>
 <div class="step hide" id="s5"><div id="parchi"></div>
-<p style="text-align:center" class="noprint"><button class="btn" onclick="print()">Print parchi</button> <button class="btn alt" onclick="resetBook()">New booking</button> <button class="btn alt" id="cxl" onclick="cancelAp(CUR.id)">Booking cancel karein</button></p></div>
+<p style="text-align:center" class="noprint"><button class="btn" onclick="print()">Print slip</button> <button class="btn alt" onclick="resetBook()">New booking</button> <button class="btn alt" id="cxl" onclick="cancelAp(CUR.id)">Cancel booking</button></p></div>
 </section>
 
 <section id="admin" class="hide">
@@ -83,16 +83,16 @@ Registration → Department → Doctor → Date/Time → Token aur Digital Parch
 <div><label for="cc">Theme color</label><input id="cc" type="color" style="height:42px;padding:2px"></div>
 </div>
 <label for="ctg">Home page tagline</label><input id="ctg">
-<label for="ch">Hospitals (har line: Naam | Area | UPI ID | Fee)</label>
+<label for="ch">Hospitals (one per line: Name | Area | UPI ID | Fee)</label>
 <textarea id="ch" rows="4" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit"></textarea>
-<label for="cd">Departments (comma se alag)</label><input id="cd">
-<label for="cdoc">Doctors (har line: Naam | Department | Hospital - optional)</label>
+<label for="cd">Departments (separated by commas)</label><input id="cd">
+<label for="cdoc">Doctors (one per line: Name | Department | Hospital - optional)</label>
 <textarea id="cdoc" rows="6" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit"></textarea>
-<label for="cm">Per patient time (minute, wait-time ke liye)</label><input id="cm" type="number" min="1" style="max-width:140px">
+<label for="cm">Time per patient (minutes, for wait-time)</label><input id="cm" type="number" min="1" style="max-width:140px">
 <div class="row"><div><label for="cf1">Consultation fee (₹)</label><input id="cf1" type="number" min="0"></div>
 <div><label for="cp">Cancel charge (%)</label><input id="cp" type="number" min="0" max="100"></div>
 <div><label for="cu">Hospital UPI ID</label><input id="cu" placeholder="name@bank"></div></div>
-<p><button class="btn" onclick="saveCfg()">Save changes</button> <button class="btn alt" onclick="resetAll()">Sab reset karein</button></p>
+<p><button class="btn" onclick="saveCfg()">Save changes</button> <button class="btn alt" onclick="resetAll()">Reset everything</button></p>
 </div></div>
 </section>
 </main>
