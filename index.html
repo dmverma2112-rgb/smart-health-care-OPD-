@@ -3,62 +3,86 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Broker Admin Panel</title>
+<title>Smart Healthcare &amp; OPD System</title>
 <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared/style.css">
 </head>
 <body>
 <header>
-<div><b id="hn">Smart Healthcare &amp; OPD System</b><br><small>Broker Admin Panel</small></div>
-<nav class="tabs hide" id="anav">
-<button data-v="hosp" class="on">Hospitals</button>
-<button data-v="book">Bookings</button>
-<button data-v="live">Live Token</button>
-<button data-v="sett">Settlement</button>
-<button data-v="set">Settings</button>
-<button onclick="logout()">Logout</button>
+<div><b id="hn">Smart Healthcare &amp; OPD System</b><br><small>Patient Portal</small></div>
+<nav>
+<button data-v="home" class="on">Home</button>
+<button data-v="book">Book OPD</button>
+<button data-v="acct">Patient Login</button>
+<button data-v="hreg">Hospital Register</button>
 </nav>
 <button id="dm" aria-label="Dark mode badlein">🌙</button>
 </header>
 <main>
-<div id="lock" class="step"><h3>Broker (Admin) login</h3>
-<label for="pin">PIN (demo: 1234)</label><input id="pin" type="password" style="max-width:200px">
-<div class="err" id="e0"></div><button class="btn" onclick="unlock()">Login</button></div>
-
-<div id="app" class="hide">
-<section id="hosp">
-<div class="step"><h3>Hospitals</h3><p style="color:var(--mute)">Patients sirf "approved" hospitals dekhte hain. Hospital registration yahan "pending" me aata hai.</p><div class="tw"><table id="htbl"></table></div></div>
-<div class="step"><h3>Naya hospital jodein (seedha approved)</h3>
-<div class="row"><div><label for="an">Hospital ka naam</label><input id="an"></div><div><label for="aa">Area / City</label><input id="aa"></div>
-<div><label for="ap">Phone (10 digit)</label><input id="ap" inputmode="numeric" maxlength="10"></div><div><label for="af">Consultation fee (₹)</label><input id="af" type="number" min="0"></div></div>
-<label for="ad">Doctors (har line: Naam | Department)</label><textarea id="ad" rows="4" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit"></textarea>
-<div class="err" id="eh"></div><button class="btn" onclick="addHosp()">Hospital jodein</button></div>
+<section id="home">
+<div class="hero"><h1 id="ht"></h1><p id="hs"></p>
+<button class="btn" onclick="go('book')">Book OPD</button> <button class="btn alt" onclick="openChat()">🤖 AI Assistant se puchein</button></div>
+<div class="grid" id="stats"></div>
+<div class="step"><h3>Abhi chal raha token (Live)</h3><div id="board"></div></div>
+<div class="step"><h3>Apna Token number dekhein</h3>
+<div class="row"><input id="tk" inputmode="numeric" maxlength="10" placeholder="Booking wala mobile number" aria-label="Mobile number"><button class="btn" onclick="findTok()">Token dekhein</button></div><div id="tkr"></div></div>
+<div class="box"><b style="font-size:1.1rem;color:var(--ink)">Kaise kaam karta hai</b>Patient registration → Hospital chuniye → Doctor → Date/Time → UPI payment → Token aur Digital Parchi. Hospital broker (platform) ke through jude hain, payment platform ke UPI par aata hai.</div>
 </section>
 
-<section id="book" class="hide"><div class="step"><h3>Sabhi bookings</h3>
-<p><button class="btn alt mini" onclick="seed()">Demo data daalein</button> <button class="btn alt mini" onclick="clearAp()">Sab hataein</button></p>
-<label for="fh">Hospital filter</label><select id="fh" onchange="bookT()" style="max-width:260px"></select>
-<div class="tw"><table id="tbl"></table></div></div></section>
-
-<section id="live" class="hide"><div class="step"><h3>Live token control (Aaj)</h3><p style="color:var(--mute)">"Agla token" dabate hi patients ke Home page par "Abhi chal raha token" badal jaata hai.</p><div id="ctl"></div></div></section>
-
-<section id="sett" class="hide">
-<div class="step"><h3>Settlement aur Broker commission</h3><div class="tw"><table id="ltbl"></table></div><p id="lsum"></p></div>
-<div class="step"><h3>Registered patients</h3><div class="tw"><table id="ptbl"></table></div></div></section>
-
-<section id="set" class="hide"><div class="step"><h3>Settings</h3>
-<div class="row"><div><label for="cn">Website ka naam</label><input id="cn"></div><div><label for="cc">Theme color</label><input id="cc" type="color" style="height:42px;padding:2px"></div></div>
-<label for="ctg">Home page tagline</label><input id="ctg">
-<label for="cd">Departments (comma se alag)</label><input id="cd">
-<div class="row"><div><label for="cm">Per patient time (minute)</label><input id="cm" type="number" min="1"></div>
-<div><label for="cf1">Default fee (₹)</label><input id="cf1" type="number" min="0"></div>
-<div><label for="cp">Cancel charge (%)</label><input id="cp" type="number" min="0" max="100"></div>
-<div><label for="cmm">Broker commission (%)</label><input id="cmm" type="number" min="0" max="90"></div>
-<div><label for="cu">Broker UPI ID (payment yahin aata hai)</label><input id="cu" placeholder="name@bank"></div></div>
-<p><button class="btn" onclick="saveSet()">Save changes</button> <button class="btn alt" onclick="resetAll()">Sab reset karein</button></p></div></section>
+<section id="book" class="hide">
+<div class="ai" id="feeBar" style="margin:0 0 14px"></div>
+<div id="needLogin" class="step hide"><h3>Pehle Patient Registration / Login karein</h3><p>Booking ke liye apna account banayein ya login karein.</p><button class="btn" onclick="go('acct')">Registration / Login</button></div>
+<div id="flow">
+<div class="step" id="s0"><h3>1. Hospital chuniye</h3><div class="chips" id="hl"></div></div>
+<div class="step" id="s1"><h3>2. Patient aur problem</h3><p id="pinfo"></p>
+<label for="sym">Problem likhiye (AI department suggest karega)</label>
+<input id="sym" placeholder="jaise: bukhar, kaan dard, ghutne me dard">
+<div class="ai hide" id="aiBox"></div><div class="err" id="e1"></div>
+<button class="btn" onclick="next1()">Aage badhein</button></div>
+<div class="step off" id="s2"><h3>3. Department</h3><div class="chips" id="dl"></div></div>
+<div class="step off" id="s3"><h3>4. Doctor</h3><div class="chips" id="vl"></div></div>
+<div class="step off" id="s4"><h3>5. Date aur Time</h3>
+<div class="row"><div><label for="dt">Date</label><input id="dt" type="date"></div><div><label for="tm">Time slot</label><select id="tm"></select></div></div>
+<p class="ai" id="fee4"></p><div class="err" id="e4"></div>
+<button class="btn" onclick="confirmBook()">Appointment confirm karein</button></div>
+<div class="step hide" id="s6"><h3>6. UPI Payment</h3><div id="pay"></div></div>
+<div class="step hide" id="s5"><div id="parchi"></div>
+<p style="text-align:center" class="noprint"><button class="btn" onclick="print()">Print parchi</button> <button class="btn alt" onclick="resetBook()">Nayi booking</button> <button class="btn alt" id="cxl" onclick="cancelAp(CUR)">Booking cancel karein</button></p></div>
 </div>
+</section>
+
+<section id="acct" class="hide">
+<div id="aout">
+<div class="step"><h3>Patient Registration (naya account)</h3>
+<div class="row"><div><label for="rn">Naam</label><input id="rn" autocomplete="name"></div>
+<div><label for="rm">Mobile (10 digit)</label><input id="rm" inputmode="numeric" maxlength="10"></div>
+<div><label for="ra">Umar</label><input id="ra" type="number" min="0" max="120"></div>
+<div><label for="rg">Gender</label><select id="rg"><option>Male</option><option>Female</option><option>Other</option></select></div>
+<div><label for="rp">4 digit PIN</label><input id="rp" type="password" inputmode="numeric" maxlength="4"></div></div>
+<div class="err" id="ere"></div><button class="btn" onclick="regPt()">Account banayein</button></div>
+<div class="step"><h3>Patient Login</h3>
+<div class="row"><div><label for="lm">Mobile</label><input id="lm" inputmode="numeric" maxlength="10"></div>
+<div><label for="lp">PIN</label><input id="lp" type="password" inputmode="numeric" maxlength="4"></div></div>
+<div class="err" id="elg"></div><button class="btn" onclick="loginPt()">Login</button></div></div>
+<div id="ain" class="hide"><div class="step"><h3 id="aname"></h3><p id="ainfo"></p>
+<button class="btn" onclick="go('book')">Book OPD</button> <button class="btn alt" onclick="logoutPt()">Logout</button></div>
+<div class="step"><h3>Meri bookings</h3><div id="mine"></div></div></div>
+</section>
+
+<section id="hreg" class="hide">
+<div class="step"><h3>Hospital Registration</h3>
+<p style="color:var(--mute)">Hospital apni details bhejta hai. Broker (admin) approve karega tabhi patients ko dikhega.</p>
+<div class="row"><div><label for="hn1">Hospital ka naam</label><input id="hn1"></div>
+<div><label for="ha">Area / City</label><input id="ha"></div>
+<div><label for="hp">Phone (10 digit)</label><input id="hp" inputmode="numeric" maxlength="10"></div>
+<div><label for="hfee">Consultation fee (₹)</label><input id="hfee" type="number" min="0"></div></div>
+<label for="hd">Doctors (har line: Naam | Department)</label>
+<textarea id="hd" rows="5" placeholder="Dr. A. Sharma | General Medicine&#10;Dr. S. Khan | ENT" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit"></textarea>
+<div class="err" id="eh"></div><button class="btn" onclick="regHosp()">Registration bhejein</button><div id="hok"></div></div>
+</section>
 </main>
 <script src="../shared/common.js"></script>
-<script src="admin.js"></script>
+<script src="qr.js"></script>
+<script src="user.js"></script>
 </body>
 </html>
