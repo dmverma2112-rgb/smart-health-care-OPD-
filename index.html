@@ -15,7 +15,7 @@
 <button data-v="book">Book OPD</button>
 <button data-v="admin">Admin Panel</button>
 </nav>
-<button id="dm" aria-label="Dark mode badlein" title="Dark mode">🌙</button>
+<button id="dm" aria-label="Change Dark mode" title="Dark mode">🌙</button>
 </header>
 <main>
 
@@ -23,20 +23,20 @@
 <div class="hero">
 <h1 id="ht"></h1>
 <p id="hs"></p>
-<button class="btn" onclick="go('book')">Book OPD</button> <button class="btn alt" onclick="openChat()">🤖 AI Assistant se puchein</button>
+<button class="btn" onclick="go('book')">Book OPD</button> <button class="btn alt" onclick="openChat()">🤖 Ask to AI Assistant</button>
 </div>
 <div class="grid" id="stats"></div>
 <div class="step"><h3>Appointment is currently running (Live)</h3><div id="board"></div></div>
 <div class="step"><h3>See your Appointment number</h3>
-<div class="row"><input id="tk" inputmode="numeric" maxlength="10" placeholder="Booking wala mobile number" aria-label="Mobile number"><button class="btn" onclick="findTok()">Token dekhein</button></div>
+<div class="row"><input id="tk" inputmode="numeric" maxlength="10" placeholder="Booking mobile number" aria-label="Mobile number"><button class="btn" onclick="findTok()">Token dekhein</button></div>
 <div id="tkr"></div></div>
-<div class="box"><b style="font-size:1.1rem;color:var(--ink)">Kaise kaam karta hai</b>
+<div class="box"><b style="font-size:1.1rem;color:var(--ink)">How is it work.</b>
 Registration → Department → Doctor → Date/Time → Token aur Digital Parchi</div>
 </section>
 
 <section id="book" class="hide">
 <div class="ai" id="feeBar" style="margin:0 0 14px"></div>
-<div class="step" id="s0"><h3>1. Hospital chuniye</h3><div class="chips" id="hosps"></div></div>
+<div class="step" id="s0"><h3>1. Select Hospital</h3><div class="chips" id="hosps"></div></div>
 <div class="step" id="s1"><h3>2. Patient Registration</h3>
 <div class="row">
 <div><label for="pn">Name</label><input id="pn" autocomplete="name"></div>
@@ -45,26 +45,26 @@ Registration → Department → Doctor → Date/Time → Token aur Digital Parch
 <div><label for="pg">Gender</label><select id="pg"><option>Male</option><option>Female</option><option>Other</option></select></div>
 </div>
 <label for="sym">Problem likhiye (AI department suggest karega)</label>
-<input id="sym" placeholder="jaise: bukhar, kaan dard, ghutne me dard">
+<input id="sym" placeholder=" Like: Typhoid, Maleria, Arthritis, Diabetes">
 <div class="ai hide" id="aiBox"></div>
 <div class="err" id="e1"></div>
-<button class="btn" onclick="next1()">Aage badhein</button>
+<button class="btn" onclick="next1()">Moving forward</button>
 </div>
 
 <div class="step off" id="s2"><h3>3. Department</h3><div class="chips" id="depts"></div></div>
 <div class="step off" id="s3"><h3>4. Doctor</h3><div class="chips" id="docs"></div></div>
-<div class="step off" id="s4"><h3>5. Date aur Time</h3>
+<div class="step off" id="s4"><h3>5. Date and Time</h3>
 <div class="row">
 <div><label for="dt">Date</label><input id="dt" type="date"></div>
 <div><label for="tm">Time slot</label><select id="tm"></select></div>
 </div>
 <p class="ai" id="fee4"></p>
 <div class="err" id="e4"></div>
-<button class="btn" onclick="confirmBook()">Appointment confirm karein</button>
+<button class="btn" onclick="confirmBook()">Confirming your Appointment</button>
 </div>
 <div class="step hide" id="s6"><h3>6. UPI Payment</h3><div id="pay"></div></div>
 <div class="step hide" id="s5"><div id="parchi"></div>
-<p style="text-align:center" class="noprint"><button class="btn" onclick="print()">Print parchi</button> <button class="btn alt" onclick="resetBook()">Nayi booking</button> <button class="btn alt" id="cxl" onclick="cancelAp(CUR.id)">Booking cancel karein</button></p></div>
+<p style="text-align:center" class="noprint"><button class="btn" onclick="print()">Print parchi</button> <button class="btn alt" onclick="resetBook()">New booking</button> <button class="btn alt" id="cxl" onclick="cancelAp(CUR.id)">Booking cancel karein</button></p></div>
 </section>
 
 <section id="admin" class="hide">
@@ -72,14 +72,14 @@ Registration → Department → Doctor → Date/Time → Token aur Digital Parch
 <label for="pin">PIN (demo: 1234)</label><input id="pin" type="password" style="max-width:200px">
 <div class="err" id="e0"></div><button class="btn" onclick="unlock()">Login</button></div>
 <div id="panel" class="hide">
-<div class="step"><h3>Live token control (Aaj)</h3><div id="ctl"></div></div>
+<div class="step"><h3>Live token control </h3><div id="ctl"></div></div>
 <div class="step"><h3>Appointments</h3>
-<p><button class="btn alt mini" onclick="seed()">Demo data daalein</button> <button class="btn alt mini" onclick="clearAp()">Sab hataein</button></p>
+<p><button class="btn alt mini" onclick="seed()">Enter Demo data </button> <button class="btn alt mini" onclick="clearAp()">Clear all </button></p>
 <label for="fd">Department filter</label><select id="fd" onchange="renderAdmin()" style="max-width:240px"></select>
 <div class="tw"><table id="tbl"></table></div></div>
-<div class="step"><h3>Apni marzi se badlein</h3>
+<div class="step"><h3>Chnage it is as you please.</h3>
 <div class="row">
-<div><label for="cn">Website ka naam</label><input id="cn"></div>
+<div><label for="cn">Website Name</label><input id="cn"></div>
 <div><label for="cc">Theme color</label><input id="cc" type="color" style="height:42px;padding:2px"></div>
 </div>
 <label for="ctg">Home page tagline</label><input id="ctg">
